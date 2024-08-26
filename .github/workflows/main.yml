@@ -69,8 +69,10 @@ jobs:
           echo "GOOGLE_APPLICATION_CREDENTIALS=${{ github.workspace }}/firebase-key.json" >> $GITHUB_ENV
       - name: Deploy to Firebase
         run: |
-          firebase use ${{ secrets.FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_KEY }}
-          firebase deploy --only hosting --token ${{ secrets.FIREBASE_KEY }}
-      - name: Delete GOOGLE_APPLICATION_CREDENTIALS
-        run: rm $GOOGLE_APPLICATION_CREDENTIALS
+          firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
+          firebase deploy --only hosting
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/firebase-key.json
+      - name: Delete Firebase service account key
+        run: rm ./firebase-key.json
         if: always()
