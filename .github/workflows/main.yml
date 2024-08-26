@@ -73,6 +73,7 @@ jobs:
           firebase deploy --only hosting
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/firebase-key.json
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
       - name: Delete Firebase service account key
         run: rm ./firebase-key.json
         if: always()
