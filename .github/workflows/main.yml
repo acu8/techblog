@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: "18"
       - name: Install dependencies
@@ -38,9 +38,9 @@ jobs:
     #   VITE_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: "18"
       - name: install
@@ -69,8 +69,8 @@ jobs:
           echo "GOOGLE_APPLICATION_CREDENTIALS=${{ github.workspace }}/firebase-key.json" >> $GITHUB_ENV
       - name: Deploy to Firebase
         run: |
-          firebase use ${{ secrets.FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
-          firebase deploy --only hosting --token ${{ secrets.FIREBASE_TOKEN }}
+          firebase use ${{ secrets.FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_KEY }}
+          firebase deploy --only hosting --token ${{ secrets.FIREBASE_KEY }}
       - name: Delete GOOGLE_APPLICATION_CREDENTIALS
         run: rm $GOOGLE_APPLICATION_CREDENTIALS
         if: always()
