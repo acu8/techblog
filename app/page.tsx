@@ -1,3 +1,4 @@
+import Articles from "./components/Articles";
 import Home from "./components/Home";
 
 // export const metadata = {
@@ -5,5 +6,10 @@ import Home from "./components/Home";
 // };
 
 export default function Page() {
-  return <Home />;
+  return (
+    <div>
+      <Home />;
+      <Articles />
+    </div>
+  );
 }
