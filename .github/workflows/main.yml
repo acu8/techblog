@@ -67,6 +67,10 @@ jobs:
         run: |
           echo "${{ secrets.FIREBASE_KEY }}" | base64 -d > ./firebase-key.json
           echo "GOOGLE_APPLICATION_CREDENTIALS=${{ github.workspace }}/firebase-key.json" >> $GITHUB_ENV
+      - name: Check GOOGLE_APPLICATION_CREDENTIALS
+        run: echo $GOOGLE_APPLICATION_CREDENTIALS
+      - name: Authenticate to Firebase
+        run: firebase login:ci --no-localhost
       - name: Create .env file and select Firebase project
         run: |
           touch .env
@@ -75,9 +79,13 @@ jobs:
           echo "QIITA_API_TOKEN=${{ secrets.QIITA_API_TOKEN }}" >> .env
           echo "MICROCMS_API_URL=${{ secrets.MICROCMS_API_URL }}" >> .env
           firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
-      - name: Deploy to Firebase
+      - name: Check Firebase CLI version
+        run: firebase --version
+      - name: Check Firebase project
+        run: firebase projects:list
+      - name: Deploy to Firebase (Debug mode)
         run: |
-          firebase deploy --only hosting,functions
+          firebase deploy --only hosting,functions --debug
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/firebase-key.json
           FIREBASE_CLI_EXPERIMENTS: webframeworks
