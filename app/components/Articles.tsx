@@ -4,38 +4,69 @@ import React, { useEffect, useState } from "react";
 // import data from "../data/data";
 import Link from "next/link";
 
-interface Article {
+export interface Article {
   title: string;
   date: string;
   url: string;
   thumbnail: string;
 }
 
+export interface ArticleProps {
+  article: Article[];
+}
+
 const Articles: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([]);
+  const [displayedArticles, setDisplayedArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const INITIAL_DISPLAY = 4;
 
-  useEffect(() => {
-    const fetchInitialArticles = async () => {
+  const fetchArticles = async (page: number): Promise<Article[]> => {
+    try {
       setIsLoading(true);
-      try {
-        const response = await fetch("/api/qiita?page=1&per_page=4");
-        if (!response.ok) {
-          throw new Error("Failed to fetch articles");
-        }
-        const initialArticles: Article[] = await response.json();
-        setArticles(initialArticles);
-      } catch (err) {
-        setError("Error fetching articles");
-        console.error(err);
-      } finally {
-        setIsLoading(false);
+      const response = await fetch(`/api/qiita?page=${page}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch articles");
       }
+      const newArticles: Article[] = await response.json();
+      return newArticles;
+    } catch (err) {
+      setError("Error fetching articles");
+      console.error(err);
+      return [];
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchMicroCMSArticles = async (): Promise<Article[]> => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`/api/microcms`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch microCMS articles");
+      }
+      const microArticles: Article[] = await response.json();
+      return microArticles;
+    } catch (err) {
+      setError("Error fetching articles");
+      console.error(err);
+      return [];
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const initialFetch = async () => {
+      const initialArticles = await fetchArticles(1);
+      const microCMSArticles = await fetchMicroCMSArticles();
+      setDisplayedArticles(initialArticles.slice(0, INITIAL_DISPLAY));
+      setArticles(microCMSArticles.slice(0, INITIAL_DISPLAY));
     };
-    fetchInitialArticles();
+    initialFetch();
   }, []);
 
   if (error) return <div>{error}</div>;
@@ -43,8 +74,9 @@ const Articles: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4">
+
       <div className="flex flex-wrap -mx-2">
-        {articles.map((article: Article) => (
+        {displayedArticles.map((article: Article) => (
           <div
             key={article.url}
             className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-2 mb-4"

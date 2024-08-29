@@ -1,15 +1,13 @@
 import Articles from "./components/Articles";
+import Blogs from "./components/Blogs";
 import Home from "./components/Home";
-
-// export const metadata = {
-//   title: "App Router",
-// };
 
 export default function Page() {
   return (
     <div>
-      <Home />;
+      <Home />
       <Articles />
+      <Blogs />
     </div>
   );
 }

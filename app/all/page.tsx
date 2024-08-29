@@ -41,7 +41,7 @@ const AllArticles: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4">
-      <h1 className="text-2xl font-bold mb-4">すべての記事</h1>
+      <h1 className="text-2xl font-bold mb-4">個人記事一覧</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {articles.map((article: Article) => (
           <div key={article.url} className="card bg-base-100 shadow-xl">
