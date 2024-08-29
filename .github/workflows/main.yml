@@ -67,9 +67,16 @@ jobs:
         run: |
           echo "${{ secrets.FIREBASE_KEY }}" | base64 -d > ./firebase-key.json
           echo "GOOGLE_APPLICATION_CREDENTIALS=${{ github.workspace }}/firebase-key.json" >> $GITHUB_ENV
+      - name: Create .env file and select Firebase project
+        run: |
+          touch .env
+          echo "SERVICE_DOMAIN=${{ secrets.SERVICE_DOMAIN }}" >> .env
+          echo "CMS_API_KEY=${{ secrets.CMS_API_KEY }}" >> .env
+          echo "QIITA_API_KEY=${{ secrets.QIITA_API_KEY }}" >> .env
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
+          ./node_modules/.bin/firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
       - name: Deploy to Firebase
         run: |
-          firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
           firebase deploy --only hosting,functions
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/firebase-key.json
