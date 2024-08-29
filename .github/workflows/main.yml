@@ -70,11 +70,11 @@ jobs:
       - name: Create .env file and select Firebase project
         run: |
           touch .env
-          echo "SERVICE_DOMAIN=${{ secrets.SERVICE_DOMAIN }}" >> .env
-          echo "CMS_API_KEY=${{ secrets.CMS_API_KEY }}" >> .env
-          echo "QIITA_API_KEY=${{ secrets.QIITA_API_KEY }}" >> .env
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
-          ./node_modules/.bin/firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
+          echo "QIITA_USER_ID=${{ secrets.QIITA_USER_ID }}" >> .env
+          echo "MICROCMS_API_KEY=${{ secrets.MICROCMS_API_KEY }}" >> .env
+          echo "QIITA_API_TOKEN=${{ secrets.QIITA_API_TOKEN }}" >> .env
+          echo "MICROCMS_API_URL=${{ secrets.MICROCMS_API_URL }}" >> .env
+          firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
       - name: Deploy to Firebase
         run: |
           firebase deploy --only hosting,functions
