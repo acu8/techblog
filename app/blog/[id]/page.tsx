@@ -34,7 +34,11 @@ const BlogDetail: React.FC = () => {
           const data: Blog = await response.json();
           setBlog(data);
         } catch (error) {
-          setError(error.message);
+          if (error instanceof Error) {
+            setError(error.message);
+          } else {
+            setError("An unknown error occurred");
+          }
         } finally {
           setLoading(false);
         }
