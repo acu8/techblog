@@ -16,7 +16,6 @@ export interface ArticleProps {
 }
 
 const Articles: React.FC = () => {
-  const [articles, setArticles] = useState<Article[]>([]);
   const [displayedArticles, setDisplayedArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,30 +40,10 @@ const Articles: React.FC = () => {
     }
   };
 
-  const fetchMicroCMSArticles = async (): Promise<Article[]> => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(`/api/microcms`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch microCMS articles");
-      }
-      const microArticles: Article[] = await response.json();
-      return microArticles;
-    } catch (err) {
-      setError("Error fetching articles");
-      console.error(err);
-      return [];
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
     const initialFetch = async () => {
       const initialArticles = await fetchArticles(1);
-      const microCMSArticles = await fetchMicroCMSArticles();
       setDisplayedArticles(initialArticles.slice(0, INITIAL_DISPLAY));
-      setArticles(microCMSArticles.slice(0, INITIAL_DISPLAY));
     };
     initialFetch();
   }, []);
@@ -74,8 +53,10 @@ const Articles: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4">
-
-      <div className="flex flex-wrap -mx-2">
+      <div>
+        <h1 data-testid="display-title">個人記事</h1>
+      </div>
+      <div data-testid="display-article" className="flex flex-wrap -mx-2">
         {displayedArticles.map((article: Article) => (
           <div
             key={article.url}

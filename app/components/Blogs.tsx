@@ -57,9 +57,9 @@ const BlogList: React.FC = () => {
   return (
     <div className="container mx-auto px-4">
       <div>
-        <h1>ブログ記事</h1>
+        <h1 data-testid="display-title">ブログ記事</h1>
       </div>
-      <div className="flex flex-wrap -mx-2">
+      <div data-testid="display-blog" className="flex flex-wrap -mx-2">
         {blogs.map((blog) => (
           <div
             key={blog.id}
