@@ -69,8 +69,6 @@ jobs:
           echo "GOOGLE_APPLICATION_CREDENTIALS=${{ github.workspace }}/firebase-key.json" >> $GITHUB_ENV
       - name: Check GOOGLE_APPLICATION_CREDENTIALS
         run: echo $GOOGLE_APPLICATION_CREDENTIALS
-      - name: Authenticate to Firebase
-        run: firebase login:ci --no-localhost
       - name: Create .env file and select Firebase project
         run: |
           touch .env
