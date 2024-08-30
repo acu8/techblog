@@ -6,7 +6,7 @@ const mockedArticles = [
   {
     id: "1",
     title: "記事タイトル",
-    date: "2024-08-01",
+    updated_at: "2024-08-01",
     url: "https://example.com",
     thumbnail: "https://example.com/thumbnail.jpg",
     content: "記事の内容",
@@ -14,7 +14,7 @@ const mockedArticles = [
   {
     id: "2",
     title: "記事タイトル2",
-    date: "2024-08-02",
+    updated_at: "2024-08-02",
     url: "https://example.com/2",
     thumbnail: "https://example.com/thumbnail2.jpg",
     content: "記事の内容2",
@@ -51,7 +51,7 @@ describe("Articles", () => {
     mockedArticles.forEach((article) => {
       expect(screen.getByText(article.title)).toBeInTheDocument();
       expect(
-        screen.getByText(new Date(article.date).toLocaleDateString())
+        screen.getByText(new Date(article.updated_at).toLocaleDateString())
       ).toBeInTheDocument();
       expect(screen.getByAltText(article.title)).toHaveAttribute(
         "src",
