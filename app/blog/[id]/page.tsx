@@ -61,24 +61,38 @@ const BlogDetail: React.FC = () => {
   }
 
   return (
-    <div>
-      <h2>{blog.title}</h2>
-      <div>
-        <p>
-          {new Date(blog.createdAt).toLocaleDateString("ja-JP", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </p>
-      </div>
-      <img src={blog.eyecatch.url} alt={blog.title} />
-      <ReactMarkdown rehypePlugins={[rehypeRaw, rehypeSanitize]}>
-        {blog.content}
-      </ReactMarkdown>
-      <div className="text-center mt-4">
+    <div className="flex flex-col items-center max-w-3xl mx-auto px-4 py-8">
+      <article className="w-full text-gray-50">
+        <header className="mb-8">
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl font-bold text-center mb-4">
+              {blog.title}
+            </h1>
+            <p className="text-gray-50 mt-10">
+              {new Date(blog.createdAt).toLocaleDateString("ja-JP", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
+          </div>
+        </header>
+        <img
+          src={blog.eyecatch.url}
+          alt={blog.title}
+          className="w-full h-64 object-cover mb-8 rounded-lg shadow-md"
+        />
+        <div className="prose max-w-none">
+          <ReactMarkdown rehypePlugins={[rehypeRaw, rehypeSanitize]}>
+            {blog.content}
+          </ReactMarkdown>
+        </div>
+      </article>
+      <div className="mt-12">
         <Link href="/" passHref>
-          <button className="btn btn-secondary">メインページに戻る</button>
+          <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+            メインページに戻る
+          </button>
         </Link>
       </div>
     </div>

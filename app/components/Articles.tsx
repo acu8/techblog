@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export interface Article {
   title: string;
-  date: string;
+  updated_at: string;
   url: string;
   thumbnail: string;
 }
@@ -48,13 +48,32 @@ const Articles: React.FC = () => {
     initialFetch();
   }, []);
 
+  console.log(displayedArticles);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      console.error("Invalid date:", dateString);
+      return "日付不明";
+    }
+    return date.toLocaleDateString();
+  };
+
   if (error) return <div>{error}</div>;
   if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="container mx-auto px-4">
-      <div>
-        <h1 data-testid="display-title">個人記事</h1>
+      <div className="mb-6 flex justify-between items-center">
+        <h1
+          data-testid="display-title"
+          className="text-3xl font-bold text-indigo-200"
+        >
+          Qiitaに掲載中の記事
+        </h1>
+        <Link href="/all" passHref>
+          <button className="btn btn-outline">もっと見る</button>
+        </Link>
       </div>
       <div data-testid="display-article" className="flex flex-wrap -mx-2">
         {displayedArticles.map((article: Article) => (
@@ -73,20 +92,16 @@ const Articles: React.FC = () => {
                 </figure>
                 <div className="card-body">
                   <h2 className="card-title">{article.title}</h2>
-                  <p>{new Date(article.date).toLocaleDateString()}</p>
+                  {/* <p>{new Date(article.date).toLocaleDateString()}</p> */}
+                  <p>{formatDate(article.updated_at)}</p>
                   <div className="card-actions justify-end">
-                    <button className="btn btn-primary">詳細を見る</button>
+                    <button className="btn btn-accent">詳細を見る</button>
                   </div>
                 </div>
               </div>
             </Link>
           </div>
         ))}
-      </div>
-      <div className="text-center mt-4">
-        <Link href="/all" passHref>
-          <button className="btn btn-primary">もっと見る</button>
-        </Link>
       </div>
     </div>
   );
