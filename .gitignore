@@ -39,3 +39,5 @@ next-env.d.ts
 .firebase/tech-blog-68c4e/functions/node_modules/@next/swc-darwin-x64/next-swc.darwin-x64.node
 **/*.node
 **/node_modules/
+.firebase/
+node_modules/
