@@ -41,3 +41,6 @@ next-env.d.ts
 **/node_modules/
 .firebase/
 node_modules/
+**/*.node
+.firebase/
+**/node_modules/
