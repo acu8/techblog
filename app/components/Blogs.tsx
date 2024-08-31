@@ -56,8 +56,16 @@ const BlogList: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4">
-      <div>
-        <h1 data-testid="display-title">ブログ記事</h1>
+      <div className="mb-6 flex justify-between items-center">
+        <h1
+          data-testid="display-title"
+          className="text-3xl font-bold text-indigo-200"
+        >
+          ブログ記事
+        </h1>
+        <Link href="/blog-all" passHref>
+          <button className="btn btn-outline">もっと見る</button>
+        </Link>
       </div>
       <div data-testid="display-blog" className="flex flex-wrap -mx-2">
         {blogs.map((blog) => (
@@ -77,19 +85,14 @@ const BlogList: React.FC = () => {
                 <h2 className="card-title">{blog.title}</h2>
                 <p>{new Date(blog.publishedAt).toLocaleDateString()}</p>
                 <div className="card-actions justify-end">
-                  <Link href={`/blog/${blog.id}`} className="btn btn-primary">
-                    <button className="btn btn-primary">詳細を見る</button>
+                  <Link href={`/blog/${blog.id}`}>
+                    <button className="btn btn-warning">詳細を見る</button>
                   </Link>
                 </div>
               </div>
             </div>
           </div>
         ))}
-      </div>
-      <div className="text-center mt-4">
-        <Link href="/blog-all" passHref>
-          <button className="btn btn-primary">もっと見る</button>
-        </Link>
       </div>
     </div>
   );
