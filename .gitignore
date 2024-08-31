@@ -44,3 +44,4 @@ node_modules/
 **/*.node
 .firebase/
 **/node_modules/
+.env
