@@ -45,3 +45,4 @@ node_modules/
 .firebase/
 **/node_modules/
 .env
+.firebase/tech-blog-68c4e/functions/.env
